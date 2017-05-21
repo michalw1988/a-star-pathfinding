@@ -13,29 +13,64 @@
 		
 		<!-- JS logic -->
 		<script src="script.js"></script> 
+		
+		<link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet"> 
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	</head>
 	
 	<body>
 		<div id="mainBox">
-			<div id="mainHeader">A* pathfinding</div>
-			<canvas id="canvas" width="800" height="500">Canvas not working on your browser, sorry.</canvas>
 			
-			<br />
-			<button id="setStartButton">Set start point</button>
-			<button id="setFinishButton">Set finish point</button>
-			<button id="resetButton">Reset map</button>
-			<button id="findButton">Find path</button>
-			<button id="modifyButton" disabled>Modify map</button>
-			Show steps?<input type="checkbox" id="showStepsCheckbox" /> 
-			Allow cutting corners?<input type="checkbox" id="cuttingCornersCheckbox" /> 
-			<br>
-			<label id="infoLabel">Draw obstacles and click 'Find path'.</label>
+			<div id="columns">
+				<div id="optionsColumn">
+					<div id="header">
+						<div id="mainHeader">A* pathfinding</div>
+						<div id="subHeader">algorithm visualisation</div>
+					</div>
+					
+					<div id="drawingSelectionDiv">
+						<div id="drawOption" class="drawingOptionDiv activeOption">
+							Draw obstacles
+						</div>
+						<div id="removeOption" class="drawingOptionDiv">
+							Remove obstacles
+						</div>
+					</div>
+					
+					<button id="setStartButton">Set start point</button><br />
+					<button id="setFinishButton">Set finish point</button><br />
+					<button id="resetButton">Reset map</button><br />
+					<div class="checkBoxLabel">Allow cutting through corners?</div><div class="optionCheckbox" id="cuttingCornersCheckbox">&nbsp;</div><br />
+					<div class="checkBoxLabel">Show algorithm steps?</div><div class="optionCheckbox" id="showStepsCheckbox">&nbsp;</div><br /> 
+					<div id="speedSelectionDiv">
+						<div id="slowOption" class="speedOptionDiv">
+							Slow
+						</div>
+						<div id="mediumOption" class="speedOptionDiv activeOption">
+							Medium
+						</div>
+						<div id="fastOption" class="speedOptionDiv">
+							Fast
+						</div>
+					</div>
+					
+					<button id="findButton">Find path</button><br />
+					
+					<div id="infoDiv">Draw obstacles and click 'Find path'.</div>
+				
+				</div>
+				<div id="mapColumn">
+					
+					<canvas id="canvas" width="1000" height="600">Canvas not working on your browser, sorry.</canvas>
+			
+				</div>
+			</div>
 			
 			<div id="authorBox">
-				by Michał Wiśniewski (MW Projects)
-			</div>
+				Coded by <a href="https://github.com/michalw1988/" target="_blank">Michał Wiśniewski (MW Projects)</a>
+			</div>		
+			
 		</div>
-		
 		
 	</body>
 <html>

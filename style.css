@@ -1,21 +1,205 @@
 body {
-	background-color: #333;
+	background-color: #222;
 	color: #ddd;
-	font: 14px Calibri;
+	font-family: 'Coda', Calibri;
+	font-size: 14px;
 }
 
 #mainBox {
 	text-align: center;
 }
 
+#columns {
+	position: relative;
+	--background-color: #555;
+	width: 1300px;
+	height: 600px;
+	margin: 0 auto;
+}
+
+#optionsColumn {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: #393939;
+	width: 290px;
+	height: 600px;
+	--border-right: 2px solid #ddd;
+}
+
+#mapColumn {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	--background-color: #777;
+	width: 1000px;
+}
+
 #canvas {
-	background: #fff;
+	background-color: #fff;
+}
+
+#header {
+	background-color: #555;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 2px dashed #ddd;
 }
 
 #mainHeader {
 	font-size: 30px;
 }
 
+#subHeader {
+	margin-top: -8px;
+	font-size: 13px;
+	letter-spacing: 2.6px;
+}
+
 #authorBox {
 	text-align: center;
+}
+
+#infoDiv {
+	position: absolute;
+	bottom: 0px;
+	width: 290px;
+	height: 40px;
+	background-color: #555;
+	line-height: 40px;
+	border-top: 2px dashed #ddd;
+}
+
+#authorBox {
+	text-align: right;
+	width: 1300px;
+	margin: 0 auto;
+	font-size: 13px;
+}
+
+a {
+	text-decoration: none;
+	color: #398AC4;
+}
+
+.checkBoxLabel {
+	display: inline-block;
+	width: 220px;
+	height: 40px;
+	background-color: #4a4a4a;
+	color: #ddd;
+	line-height: 40px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.optionCheckbox {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	background-color: #666;
+	color: #ddd;
+	line-height: 40px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.optionCheckbox:hover {
+	background-color: #888;
+}
+
+button {
+	width: 270px;
+	height: 40px;
+	background-color: #666;
+	color: #ddd;
+	border: 0;
+	font-size: 15px;
+	margin-bottom: 10px;
+	cursor: pointer; 
+}
+
+button:hover {
+	background-color: #888;
+}
+
+#findButton {
+	position: absolute;
+	left: 10px;
+	bottom: 42px;
+}
+
+#speedSelectionDiv {
+	display: none;
+	position: relative;
+	width: 270px;
+	height: 40px;
+	background-color: #555;
+	color: #ddd;
+	margin-left: 10px;
+}
+
+.speedOptionDiv {
+	width: 90px;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	position: absolute;
+	top: 0px;
+}
+
+.speedOptionDiv:hover {
+	background-color: #888;
+}
+
+.activeOption {
+	background-color: #888;
+}
+
+.speedOptionDiv:nth-of-type(1) {
+	left: 0px;
+}
+.speedOptionDiv:nth-of-type(2) {
+	left: 90px;
+}
+.speedOptionDiv:nth-of-type(3) {
+	left: 180px;
+}
+
+
+#drawingSelectionDiv {
+	position: relative;
+	width: 270px;
+	height: 40px;
+	background-color: #555;
+	color: #ddd;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.drawingOptionDiv {
+	width: 135px;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	position: absolute;
+	top: 0px;
+}
+
+.drawingOptionDiv:hover {
+	background-color: #888;
+}
+
+.drawingOptionDiv:nth-of-type(1) {
+	left: 0px;
+}
+.drawingOptionDiv:nth-of-type(2) {
+	left: 135px;
+}
+
+
+.disabledButton, .disabledButton:hover {
+	background-color: #4a4a4a;
+	color: #777;
+	cursor: default;
 }

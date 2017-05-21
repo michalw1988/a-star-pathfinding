@@ -1,5 +1,8 @@
-var width = 800;
-var height = 500;
+// http://www.policyalmanac.org/games/aStarTutorial_pl.htm //
+
+
+var width = 1000;
+var height = 600;
 var cellSize = 20;
 var cellXCount = width / cellSize;
 var cellYCount = height / cellSize;
@@ -23,13 +26,24 @@ var startY = 1;
 var finishX = cellXCount - 2;
 var finishY = cellYCount - 2;
 
+var drawingMode = true;
+
+var searching = false;
+var disableDrawing = false;
 var searchFailed = false;
 
 var showSteps = false;
-var stepsInterval = 50;
+var animationSpeed = 50;
 
 var allowCuttingCorders = false;
 
+var infoText = "Draw obstacles and click <strong>Find path</strong>.";
+
+var infoRGB = 100;
+var increaseColor = true;
+
+
+//--------------------------------------------------------------------//
 
 $(document).ready(function () {
 	canvas = document.getElementById('canvas');
@@ -40,26 +54,55 @@ $(document).ready(function () {
 	var interval = setInterval(renderFrame, 40);
 	
 	$('#canvas').on('mousedown', function(e) {
-		mousePressed = true;
-		var mouseX = e.pageX - this.offsetLeft;
-		var mouseY = e.pageY - this.offsetTop;
-		var cellX = Math.floor(mouseX / cellSize);
-		var cellY = Math.floor(mouseY / cellSize);
+		if(!searching) {
+			mousePressed = true;
+			var elementRect = canvas.getBoundingClientRect();
+			var mouseX = e.pageX - elementRect.x;
+			var mouseY = e.pageY - elementRect.y;
+			var cellX = Math.floor(mouseX / cellSize);
+			var cellY = Math.floor(mouseY / cellSize);
+			
+			if (settingStartPoint && matrix[cellY][cellX] !== 'F') {
+				matrix[startY][startX] = 0;
+				startX = cellX;
+				startY = cellY;
+				matrix[startY][startX] = 'S';
+				settingStartPoint = false;
+				infoText = "Draw obstacles and click <strong>Find path</strong>.";
+				$('#resetButton').attr('disabled', false);
+				$('#resetButton').removeClass('disabledButton');
+				$('#findButton').attr('disabled', false);
+				$('#findButton').removeClass('disabledButton');
+				$('#setFinishButton').attr('disabled', false);
+				$('#setFinishButton').removeClass('disabledButton');
+				
+			} else if (settingFinishPoint && matrix[cellY][cellX] !== 'S') {
+				matrix[finishY][finishX] = 0;
+				finishX = cellX;
+				finishY = cellY;
+				matrix[finishY][finishX] = 'F';
+				settingFinishPoint = false;
+				infoText = "Draw obstacles and click <strong>Find path</strong>.";
+				$('#resetButton').attr('disabled', false);
+				$('#resetButton').removeClass('disabledButton');
+				$('#findButton').attr('disabled', false);
+				$('#findButton').removeClass('disabledButton');
+				$('#setStartButton').attr('disabled', false);
+				$('#setStartButton').removeClass('disabledButton');
+				
+			} else if (matrix[cellY][cellX] === 0 && drawingMode) {
+				matrix[cellY][cellX] = 1;
+			} else if (matrix[cellY][cellX] === 1 && !drawingMode) {
+				matrix[cellY][cellX] = 0;
+			}
+		}
 		
-		if (settingStartPoint && matrix[cellY][cellX] !== 'F') {
-			matrix[startY][startX] = 0;
-			startX = cellX;
-			startY = cellY;
-			matrix[startY][startX] = 'S';
-			settingStartPoint = false;
-		} else if (settingFinishPoint && matrix[cellY][cellX] !== 'S') {
-			matrix[finishY][finishX] = 0;
-			finishX = cellX;
-			finishY = cellY;
-			matrix[finishY][finishX] = 'F';
-			settingFinishPoint = false;
-		} else if (matrix[cellY][cellX] === 0) {
-			matrix[cellY][cellX] = 1;
+		if (!searching && disableDrawing) {
+			disableDrawing = false;
+			//console.log('can draw now');
+			clearInterval(interval);
+			interval = setInterval(renderFrame, 40);
+			infoText = "Draw obstacles and click <strong>Find path</strong>.";
 		}
 	});
 	
@@ -69,31 +112,97 @@ $(document).ready(function () {
 		
 	$('#canvas').on('mousemove', function(e) {
 		if(mousePressed) {
-			var mouseX = e.pageX - this.offsetLeft;
-			var mouseY = e.pageY - this.offsetTop;
+			var elementRect = canvas.getBoundingClientRect();
+			var mouseX = e.pageX - elementRect.x;
+			var mouseY = e.pageY - elementRect.y;
 			var cellX = Math.floor(mouseX / cellSize);
 			var cellY = Math.floor(mouseY / cellSize);
-			if (matrix[cellY][cellX] === 0) {
+			if (matrix[cellY][cellX] === 0 && drawingMode) {
 				matrix[cellY][cellX] = 1;
+			} else if (matrix[cellY][cellX] === 1 && !drawingMode) {
+				matrix[cellY][cellX] = 0;
 			}
 		}
 	});
 	
-	$('#showStepsCheckbox').on('change', function() {
-		showSteps = !showSteps;
+	
+	$('#cuttingCornersCheckbox').on('click', function() {
+		allowCuttingCorders = !allowCuttingCorders;
+		if (allowCuttingCorders) {
+			$('#cuttingCornersCheckbox').html('<i style="font-size: 20px" class="fa fa-check" aria-hidden="true"></i>');
+		} else {
+			$('#cuttingCornersCheckbox').html('&nbsp;');
+		}
 	});
 	
-	$('#cuttingCornersCheckbox').on('change', function() {
-		allowCuttingCorders = !allowCuttingCorders;
-		console.log(allowCuttingCorders);
+	$('#showStepsCheckbox').on('click', function() {
+		showSteps = !showSteps;
+		if (showSteps) {
+			$('#showStepsCheckbox').html('<i style="font-size: 20px" class="fa fa-check" aria-hidden="true"></i>');
+			$('#speedSelectionDiv').css('display', 'block');
+		} else {
+			$('#showStepsCheckbox').html('&nbsp;');
+			$('#speedSelectionDiv').css('display', 'none');
+		}
 	});
+	
+	
+	$('#drawOption').on('click', function() {
+		$('#removeOption').removeClass('activeOption');
+		$('#drawOption').addClass('activeOption');
+		drawingMode = true;
+	});
+	
+	$('#removeOption').on('click', function() {
+		$('#drawOption').removeClass('activeOption');
+		$('#removeOption').addClass('activeOption');
+		drawingMode = false;
+	});
+	
+	
+	$('#slowOption').on('click', function() {
+		$('.speedOptionDiv').removeClass('activeOption');
+		$('#slowOption').addClass('activeOption');
+		animationSpeed = 500;
+	});
+	
+	$('#mediumOption').on('click', function() {
+		$('.speedOptionDiv').removeClass('activeOption');
+		$('#mediumOption').addClass('activeOption');
+		animationSpeed = 50;
+	});
+	
+	$('#fastOption').on('click', function() {
+		$('.speedOptionDiv').removeClass('activeOption');
+		$('#fastOption').addClass('activeOption');
+		animationSpeed = 5;
+	});
+	
+	
+	
 	
 	$('#setStartButton').on('click', function() {
 		settingStartPoint = true;
+		infoText = "Click on the map to set start point.";
+		
+		$('#resetButton').attr('disabled', true);
+		$('#resetButton').addClass('disabledButton');
+		$('#findButton').attr('disabled', true);
+		$('#findButton').addClass('disabledButton');
+		$('#setFinishButton').attr('disabled', true);
+		$('#setFinishButton').addClass('disabledButton');
 	});
 	
 	$('#setFinishButton').on('click', function() {
 		settingFinishPoint = true;
+		infoText = "Click on the map to set finish point.";
+		
+		$('#resetButton').attr('disabled', true);
+		$('#resetButton').addClass('disabledButton');
+		$('#findButton').attr('disabled', true);
+		$('#findButton').addClass('disabledButton');
+		$('#setStartButton').attr('disabled', true);
+		$('#setStartButton').addClass('disabledButton');
 	});
 	
 	$('#resetButton').on('click', function(){
@@ -109,23 +218,29 @@ $(document).ready(function () {
 		current = null;
 		cumulatedGCost = 0;
 		
-		console.log('resetted');
-		
 		createMatrix();
 		
 		clearInterval(interval);
 		interval = setInterval(renderFrame, 40);
 		
-		$('#modifyButton').attr('disabled', true);
+		infoText = "Draw obstacles and click <strong>Find path</strong>.";
 	});
-	
-	$('#modifyButton').on('click', function(){
-		clearInterval(interval);
-		interval = setInterval(renderFrame, 40);
-		$('#modifyButton').attr('disabled', true);
-	});
+
 	
 	$('#findButton').on('click', function(){
+		//console.log('start searching');
+		//console.log('cannot draw');
+		searching = true;
+		disableDrawing = true;
+		infoText = 'Searching...';
+		
+		$('#setFinishButton').attr('disabled', true);
+		$('#setFinishButton').addClass('disabledButton');
+		$('#setStartButton').attr('disabled', true);
+		$('#setStartButton').addClass('disabledButton');
+		$('#resetButton').attr('disabled', true);
+		$('#resetButton').addClass('disabledButton');
+	
 		renderFrame();
 		
 		clearInterval(interval);
@@ -149,7 +264,7 @@ $(document).ready(function () {
 		if (showSteps) {
 			var searchingForPath = setInterval(function() {
 				if (current.position !== calculatePosition(finishX, finishY) && !searchFailed) {
-					delete openList[current.position];	
+					delete openList[current.position];
 					current.onOpenList = false;
 					closedList[current.position] = current;
 					current.onClosedList = true;		
@@ -165,13 +280,22 @@ $(document).ready(function () {
 						
 					if (!searchFailed) {
 						drawPath();
+						infoText = 'Path found!';
 					} else {
-						$('#infoLabel').text('Path does not exist');
+						infoText = 'Path does not exist.';
 					}
 					
-					$('#modifyButton').attr('disabled', false);
+					//console.log('stop searching');
+					searching = false;
+					$('#setFinishButton').attr('disabled', false);
+					$('#setFinishButton').removeClass('disabledButton');
+					$('#setStartButton').attr('disabled', false);
+					$('#setStartButton').removeClass('disabledButton');
+					$('#resetButton').attr('disabled', false);
+					$('#resetButton').removeClass('disabledButton');
+					
 				}
-			}, stepsInterval);
+			}, animationSpeed);
 		} else {	
 			while (current.position !== calculatePosition(finishX, finishY) && !searchFailed) {
 				delete openList[current.position];	
@@ -188,11 +312,19 @@ $(document).ready(function () {
 			
 			if (!searchFailed) {
 				drawPath();
+				infoText = 'Path found!';
 			} else {
-				$('#infoLabel').text('Path does not exist');
+				infoText = 'Path does not exist.';
 			}
 			
-			$('#modifyButton').attr('disabled', false);
+			//console.log('stop searching');
+			searching = false;
+			$('#setFinishButton').attr('disabled', false);
+			$('#setFinishButton').removeClass('disabledButton');
+			$('#setStartButton').attr('disabled', false);
+			$('#setStartButton').removeClass('disabledButton');
+			$('#resetButton').attr('disabled', false);
+			$('#resetButton').removeClass('disabledButton');
 		}
 
 	});
@@ -431,7 +563,7 @@ function drawPath() {
 	var previous = grid[current.parent];
 	ctx.lineTo((previous.x + 1/2) * cellSize, (previous.y + 1/2) * cellSize);	
 	
-	while (previous.parent) {
+	while (previous.parent || previous.parent === 0) {
 		previous = grid[previous.parent];
 		ctx.lineTo((previous.x + 1/2) * cellSize, (previous.y + 1/2) * cellSize);	
 	}
@@ -439,3 +571,25 @@ function drawPath() {
 	ctx.stroke();
 	ctx.strokeStyle = '#ddd';
 }
+
+
+
+
+var infoInterval = setInterval(function() {
+	//var color = 'green';
+	var color = 'rgba(' +infoRGB + ', ' + infoRGB + ', ' + infoRGB + ', 1)';
+	$('#infoDiv').css('color', color);
+	$('#infoDiv').html(infoText);
+	
+	if (increaseColor) {
+		infoRGB += 5;
+		if (infoRGB > 240) {
+			increaseColor = false;
+		}
+	} else {
+		infoRGB -= 5;
+		if (infoRGB < 140) {
+			increaseColor = true;
+		}
+	}
+}, 50);
