@@ -1,0 +1,21 @@
+body {
+	background-color: #333;
+	color: #ddd;
+	font: 14px Calibri;
+}
+
+#mainBox {
+	text-align: center;
+}
+
+#canvas {
+	background: #fff;
+}
+
+#mainHeader {
+	font-size: 30px;
+}
+
+#authorBox {
+	text-align: center;
+}

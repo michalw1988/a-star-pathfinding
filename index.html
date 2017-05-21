@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>A* Pathfinding</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		
+		<!-- My CSS file -->
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		
+		<!-- JS logic -->
+		<script src="script.js"></script> 
+	</head>
+	
+	<body>
+		<div id="mainBox">
+			<div id="mainHeader">A* pathfinding</div>
+			<canvas id="canvas" width="800" height="500">Canvas not working on your browser, sorry.</canvas>
+			
+			<br />
+			<button id="setStartButton">Set start point</button>
+			<button id="setFinishButton">Set finish point</button>
+			<button id="resetButton">Reset map</button>
+			<button id="findButton">Find path</button>
+			<button id="modifyButton" disabled>Modify map</button>
+			Show steps?<input type="checkbox" id="showStepsCheckbox" /> 
+			Allow cutting corners?<input type="checkbox" id="cuttingCornersCheckbox" /> 
+			<br>
+			<label id="infoLabel">Draw obstacles and click 'Find path'.</label>
+			
+			<div id="authorBox">
+				by Michał Wiśniewski (MW Projects)
+			</div>
+		</div>
+		
+		
+	</body>
+<html>
