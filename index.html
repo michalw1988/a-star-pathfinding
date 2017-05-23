@@ -7,27 +7,31 @@
 		
 		<!-- jQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		
+		<!--- Font awesome icons -->
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Google fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet"> 
 		<!-- My CSS file -->
 		<link rel="stylesheet" type="text/css" href="style.css" />
-		
 		<!-- JS logic -->
 		<script src="script.js"></script> 
-		
-		<link href="https://fonts.googleapis.com/css?family=Coda" rel="stylesheet"> 
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	</head>
 	
 	<body>
-		<div id="mainBox">
-			
+	
+		<div id="mainBox">	
 			<div id="columns">
+			
+				<!-- column with options and buttons -->
 				<div id="optionsColumn">
-					<div id="header">
-						<div id="mainHeader">A* pathfinding</div>
-						<div id="subHeader">algorithm visualisation</div>
+				
+					<!-- text header -->
+					<div id="headerBox">
+						<div id="mainTitle">A* pathfinding</div>
+						<div id="subTitle">algorithm visualisation</div>
 					</div>
 					
+					<!-- drawing / removing switch -->
 					<div id="drawingSelectionDiv">
 						<div id="drawOption" class="drawingOptionDiv activeOption">
 							Draw obstacles
@@ -37,11 +41,18 @@
 						</div>
 					</div>
 					
+					<!-- buttons for setting points and resetting map -->
 					<button id="setStartButton">Set start point</button><br />
 					<button id="setFinishButton">Set finish point</button><br />
 					<button id="resetButton">Reset map</button><br />
+					
+					<!-- option to cut through corners  -->
 					<div class="checkBoxLabel">Allow cutting through corners?</div><div class="optionCheckbox" id="cuttingCornersCheckbox">&nbsp;</div><br />
+					
+					<!-- option to see the algorithm steps -->
 					<div class="checkBoxLabel">Show algorithm steps?</div><div class="optionCheckbox" id="showStepsCheckbox">&nbsp;</div><br /> 
+					
+					<!-- algorithm visualisation speed switch -->
 					<div id="speedSelectionDiv">
 						<div id="slowOption" class="speedOptionDiv">
 							Slow
@@ -54,18 +65,22 @@
 						</div>
 					</div>
 					
+					<!-- button that starts the algorithm -->
 					<button id="findButton">Find path</button><br />
 					
+					<!-- panel with messages -->
 					<div id="infoDiv">Draw obstacles and click 'Find path'.</div>
 				
 				</div>
-				<div id="mapColumn">
-					
+				
+				<!-- column with canvas map -->
+				<div id="mapColumn">	
 					<canvas id="canvas" width="1000" height="600">Canvas not working on your browser, sorry.</canvas>
-			
 				</div>
+				
 			</div>
 			
+			<!-- author info and link to Github profile -->
 			<div id="authorBox">
 				Coded by <a href="https://github.com/michalw1988/" target="_blank">Michał Wiśniewski (MW Projects)</a>
 			</div>		

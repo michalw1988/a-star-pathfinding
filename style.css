@@ -1,3 +1,4 @@
+/* general settings */
 body {
 	background-color: #222;
 	color: #ddd;
@@ -5,107 +6,9 @@ body {
 	font-size: 14px;
 }
 
-#mainBox {
-	text-align: center;
-}
-
-#columns {
-	position: relative;
-	--background-color: #555;
-	width: 1300px;
-	height: 600px;
-	margin: 0 auto;
-}
-
-#optionsColumn {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	background-color: #393939;
-	width: 290px;
-	height: 600px;
-	--border-right: 2px solid #ddd;
-}
-
-#mapColumn {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	--background-color: #777;
-	width: 1000px;
-}
-
-#canvas {
-	background-color: #eee;
-}
-
-#header {
-	background-color: #555;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-	border-bottom: 2px dashed #ddd;
-}
-
-#mainHeader {
-	font-size: 30px;
-}
-
-#subHeader {
-	margin-top: -8px;
-	font-size: 13px;
-	letter-spacing: 2.6px;
-}
-
-#authorBox {
-	text-align: center;
-}
-
-#infoDiv {
-	position: absolute;
-	bottom: 0px;
-	width: 290px;
-	height: 40px;
-	background-color: #555;
-	line-height: 40px;
-	border-top: 2px dashed #ddd;
-}
-
-#authorBox {
-	text-align: right;
-	width: 1300px;
-	margin: 0 auto;
-	font-size: 13px;
-}
-
 a {
 	text-decoration: none;
 	color: #398AC4;
-}
-
-.checkBoxLabel {
-	display: inline-block;
-	width: 220px;
-	height: 40px;
-	background-color: #4a4a4a;
-	color: #ddd;
-	line-height: 40px;
-	margin-bottom: 10px;
-	margin-right: 10px;
-}
-
-.optionCheckbox {
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	background-color: #666;
-	color: #ddd;
-	line-height: 40px;
-	margin-bottom: 10px;
-	cursor: pointer;
-}
-
-.optionCheckbox:hover {
-	background-color: #888;
 }
 
 button {
@@ -123,50 +26,71 @@ button:hover {
 	background-color: #888;
 }
 
-#findButton {
-	position: absolute;
-	left: 10px;
-	bottom: 42px;
+
+/* disables button's outline on Chrome */
+*:focus {
+	outline: none;
 }
 
-#speedSelectionDiv {
-	display: none;
+
+/* the whole app box */
+#mainBox {
+	text-align: center;
+}
+
+
+/* options and map columns */
+#columns {
 	position: relative;
-	width: 270px;
-	height: 40px;
-	background-color: #555;
-	color: #ddd;
-	margin-left: 10px;
+	width: 1300px;
+	height: 600px;
+	margin: 0 auto;
 }
 
-.speedOptionDiv {
-	width: 90px;
-	height: 40px;
-	line-height: 40px;
-	cursor: pointer;
+#optionsColumn {
 	position: absolute;
 	top: 0px;
-}
-
-.speedOptionDiv:hover {
-	background-color: #888;
-}
-
-.activeOption {
-	background-color: #888;
-}
-
-.speedOptionDiv:nth-of-type(1) {
 	left: 0px;
+	background-color: #393939;
+	width: 290px;
+	height: 600px;
 }
-.speedOptionDiv:nth-of-type(2) {
-	left: 90px;
-}
-.speedOptionDiv:nth-of-type(3) {
-	left: 180px;
+
+#mapColumn {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 1000px;
 }
 
 
+/* map */
+#canvas {
+	background-color: #eee;
+	cursor: crosshair;
+}
+
+
+/* header texts */
+#headerBox {
+	background-color: #555;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 2px dashed #ddd;
+}
+
+#mainTitle {
+	font-size: 30px;
+}
+
+#subTitle {
+	margin-top: -8px;
+	font-size: 13px;
+	letter-spacing: 2.6px;
+}
+
+
+/* draw/remove selector */
 #drawingSelectionDiv {
 	position: relative;
 	width: 270px;
@@ -198,8 +122,107 @@ button:hover {
 }
 
 
+/* custom checkboxes */
+.checkBoxLabel {
+	display: inline-block;
+	width: 220px;
+	height: 40px;
+	background-color: #4a4a4a;
+	color: #ddd;
+	line-height: 40px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.optionCheckbox {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	background-color: #666;
+	color: #ddd;
+	line-height: 40px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.optionCheckbox:hover {
+	background-color: #888;
+}
+
+
+/* visualisation speed selector */
+#speedSelectionDiv {
+	display: none;
+	position: relative;
+	width: 270px;
+	height: 40px;
+	background-color: #555;
+	color: #ddd;
+	margin-left: 10px;
+}
+
+.speedOptionDiv {
+	width: 90px;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	position: absolute;
+	top: 0px;
+}
+
+.speedOptionDiv:hover {
+	background-color: #888;
+}
+
+.speedOptionDiv:nth-of-type(1) {
+	left: 0px;
+}
+.speedOptionDiv:nth-of-type(2) {
+	left: 90px;
+}
+.speedOptionDiv:nth-of-type(3) {
+	left: 180px;
+}
+
+
+/* button that starts the algorithm */
+#findButton {
+	position: absolute;
+	left: 10px;
+	bottom: 42px;
+}
+
+
+/* class for selected options (draw/remove and visualisation speed) */
+.activeOption {
+	background-color: #888;
+}
+
+
+/* class for disabled buttons */
 .disabledButton, .disabledButton:hover {
 	background-color: #4a4a4a;
 	color: #777;
 	cursor: default;
+}
+
+
+/* box for app messages */
+#infoDiv {
+	position: absolute;
+	bottom: 0px;
+	width: 290px;
+	height: 40px;
+	background-color: #555;
+	line-height: 40px;
+	border-top: 2px dashed #ddd;
+}
+
+
+/* my small signature */
+#authorBox {
+	text-align: right;
+	width: 1300px;
+	margin: 0 auto;
+	font-size: 13px;
 }

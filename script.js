@@ -83,8 +83,8 @@ $(document).ready(function () {
 		if(!searching) {
 			mousePressed = true;
 			elementRect = canvas.getBoundingClientRect();
-			mouseX = e.pageX - elementRect.x;
-			mouseY = e.pageY - elementRect.y;
+			mouseX = e.pageX - elementRect.left;
+			mouseY = e.pageY - elementRect.top;
 			cellX = Math.floor(mouseX / cellSize);
 			cellY = Math.floor(mouseY / cellSize);
 			
@@ -138,8 +138,8 @@ $(document).ready(function () {
 		
 	$('#canvas').on('mousemove', function(e) {
 		elementRect = canvas.getBoundingClientRect();
-		mouseX = e.pageX - elementRect.x;
-		mouseY = e.pageY - elementRect.y;
+		mouseX = e.pageX - elementRect.left;
+		mouseY = e.pageY - elementRect.top;
 		cellX = Math.floor(mouseX / cellSize);
 		cellY = Math.floor(mouseY / cellSize);
 		
