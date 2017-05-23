@@ -1,6 +1,3 @@
-// http://www.policyalmanac.org/games/aStarTutorial_pl.htm //
-
-
 var width = 1000;
 var height = 600;
 var cellSize = 20;
